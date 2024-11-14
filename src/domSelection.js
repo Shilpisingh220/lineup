@@ -1,4 +1,5 @@
-const formEl = document.querySelector("form");
-const inputEl = document.querySelector("input");
 const yearEl = document.querySelector(".year");
-export { formEl, inputEl, yearEl };
+const inputEl = document.querySelector("input");
+const taskListEl = document.querySelector("[data-task-list]");
+const formEl = document.querySelector("form");
+export { yearEl, inputEl, taskListEl, formEl };
