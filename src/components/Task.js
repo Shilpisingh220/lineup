@@ -1,10 +1,11 @@
 export default function Task(content, checked, id) {
   const label = document.createElement("label");
   label.id = id;
-  label.className = "label cursor-pointer" + (checked && " bg-red-400 rounded");
+  label.className =
+    "label cursor-pointer " + (checked && " bg-red-100 rounded");
 
   const span = document.createElement("span");
-  span.className = `label-text ${checked && "underline"}`;
+  span.className = `label-text`;
   span.textContent = content;
 
   const input = document.createElement("input");
@@ -17,12 +18,3 @@ export default function Task(content, checked, id) {
 
   return label;
 }
-
-/* <label class="label cursor-pointer bg-zinc-300 rounded">
-              <span class="label-text">Completed Task</span>
-              <input
-                type="checkbox"
-                checked
-                class="checkbox checkbox-primary"
-              />
-            </label> */
