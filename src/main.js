@@ -3,31 +3,63 @@ import { formEl, inputEl, taskListEl, yearEl } from "./domSelection";
 import Task from "./components/Task";
 import localforage from "localforage";
 
-let tasks = [];
+let state = [];
+
+localforage.getItem("tasks").then((tasks) => {
+  if (tasks) {
+    state = tasks;
+    console.log(state);
+    renderTasks();
+  }
+});
+
+
+
+
+// localforage.setItem("state", []);
+
+// let fruit = undefined;
+
+// (async () => {
+// const value = await localforage.getItem("fruits");
+// if (!data){
+//   fruit = "apple";  
+// } else {
+//   fruit = value;
+// }
+//  console.log(fruit);
+// })();
+
+// localforage.clear();
+
+
 
 // localforage.setDriver(localforage.LOCALSTORAGE);
 
-(async () => {
-  const data = await localforage.getItem("device");
-  console.log(data);
-})();
+// (async () => {
+//   const data = await localforage.getItem("device");
+//   console.log(data);
+// })();
 
 // This toggles the isCompleted property of the task
 // Will be called when the user clicks on the checkbox
 function toggleTask(id) {
-  tasks = tasks.map((task) => {
+  state = state.map((task) => {
     if (task.id === id) {
       return { ...task, isCompleted: !task.isCompleted };
     }
     return task;
   });
+
+  state.sort((a, b) => a.isCompleted - b.isCompleted);
+  localforage.setItem("tasks", state);
 }
 
 function renderTasks() {
   taskListEl.innerHTML = "";
   const fragment = document.createDocumentFragment();
 
-  tasks.forEach((task) => {
+  state.forEach((task) => {
     const taskEl = Task(task.value, task.isCompleted, task.id);
     fragment.appendChild(taskEl);
   });
@@ -44,13 +76,14 @@ formEl.addEventListener("submit", (e) => {
     return;
   }
 
-  tasks.unshift({
+  state.unshift({
     id: crypto.randomUUID(),
     value: inputEl.value,
     isCompleted: false,
   });
 
-  console.log(tasks);
+  console.log(state);
+  localforage.setItem("tasks", state);
 
   renderTasks();
 
